@@ -287,22 +287,6 @@ input {
   line-height: 1.5;
 }
 
-.template-note {
-  margin: 0;
-  padding: 14px 16px;
-  border-radius: 14px;
-  background: rgba(31, 77, 43, 0.08);
-  border: 1px solid rgba(31, 77, 43, 0.12);
-  color: var(--text);
-  line-height: 1.45;
-}
-
-.template-note strong {
-  display: inline;
-  margin: 0;
-  color: var(--accent);
-}
-
 .stats {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));

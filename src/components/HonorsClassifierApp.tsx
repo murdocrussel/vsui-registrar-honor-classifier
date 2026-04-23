@@ -131,15 +131,15 @@ export default function HonorsClassifierApp() {
           <div className="at-a-glance">
             <div>
               <span>Template</span>
-              <strong>Download first</strong>
+              <strong>Ready to use</strong>
             </div>
             <div>
-              <span>Program</span>
-              <strong>Typed manually</strong>
+              <span>Programs</span>
+              <strong>Custom entries</strong>
             </div>
             <div>
-              <span>Category B</span>
-              <strong>CONSISTENT in Remarks</strong>
+              <span>Export</span>
+              <strong>Filtered workbook</strong>
             </div>
           </div>
         </div>
@@ -169,10 +169,6 @@ export default function HonorsClassifierApp() {
           <a className="button button-secondary" href="/vsui-registrar-honors-classifier-template.xlsx" download>
             Download registrar template
           </a>
-
-          <div className="template-note">
-            Upload the completed registrar template here.
-          </div>
 
           <p className="fine-print">
             Start with the template if you want a clean format. Everything runs locally in your browser first, so you can
