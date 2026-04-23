@@ -5,10 +5,10 @@ import { getReadableOutcome } from "./honors-engine";
 export function exportClassifiedWorkbook(records: ParsedStudentRecord[]): Blob {
   const rows = [
     [
+      "Student No.",
       "Student Name",
       "Program",
       "Year Level",
-      "Student No.",
       "Sheet",
       "2nd Sem GPA",
       "Summer GPA",
@@ -22,10 +22,10 @@ export function exportClassifiedWorkbook(records: ParsedStudentRecord[]): Blob {
       "Notes",
     ],
     ...records.map((record) => [
+      record.studentNumber ?? "",
       record.studentName,
       record.programName,
       record.yearLevel ?? "",
-      record.studentNumber ?? "",
       record.sheetName,
       record.secondSemGpa ?? "",
       record.summerGpa ?? "",
@@ -42,6 +42,7 @@ export function exportClassifiedWorkbook(records: ParsedStudentRecord[]): Blob {
 
   const worksheet = XLSX.utils.aoa_to_sheet(rows);
   worksheet["!cols"] = [
+    { wch: 10 },
     { wch: 28 },
     { wch: 28 },
     { wch: 10 },
