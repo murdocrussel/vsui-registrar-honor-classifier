@@ -21,6 +21,13 @@ function safeJoin(values: string[]): string {
   return values.length ? values.join(" ") : "Ready for upload.";
 }
 
+function formatExportStamp(date: Date): string {
+  const pad = (value: number) => String(value).padStart(2, "0");
+  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}-${pad(date.getHours())}${pad(
+    date.getMinutes(),
+  )}`;
+}
+
 export default function HonorsClassifierApp() {
   const [state, setState] = useState<LoadState | null>(null);
   const [loading, setLoading] = useState(false);
@@ -63,7 +70,8 @@ export default function HonorsClassifierApp() {
     const url = URL.createObjectURL(blob);
     const anchor = document.createElement("a");
     anchor.href = url;
-    anchor.download = `classified-${state.fileName.replace(/\.xlsx?$/i, "")}.xlsx`;
+    const baseName = state.fileName.replace(/\.xlsx?$/i, "").replace(/[^a-z0-9]+/gi, "-").replace(/^-+|-+$/g, "");
+    anchor.download = `${baseName}-exported-${formatExportStamp(new Date())}.xlsx`;
     anchor.click();
     URL.revokeObjectURL(url);
   }
