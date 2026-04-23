@@ -162,29 +162,35 @@ input {
   line-height: 1.6;
 }
 
-.quick-guide {
+.at-a-glance {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
   margin-top: 28px;
-  max-width: 560px;
-  padding: 18px 20px;
-  border-radius: 18px;
-  background: rgba(255, 255, 255, 0.7);
+  max-width: 720px;
+}
+
+.at-a-glance div {
+  padding: 14px 16px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.72);
   border: 1px solid rgba(31, 77, 43, 0.1);
 }
 
-.quick-guide-title {
-  margin: 0 0 10px;
-  color: var(--accent);
-  font-weight: 700;
-  letter-spacing: 0.08em;
+.at-a-glance span {
+  display: block;
+  color: var(--muted);
+  font-size: 0.75rem;
   text-transform: uppercase;
-  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  margin-bottom: 4px;
 }
 
-.quick-guide ol {
-  margin: 0;
-  padding-left: 18px;
+.at-a-glance strong {
+  display: block;
   color: var(--text);
-  line-height: 1.55;
+  font-size: 0.95rem;
+  line-height: 1.35;
 }
 
 .panel,
@@ -520,7 +526,8 @@ td span {
     grid-template-columns: 1fr;
   }
 
-  .quick-guide {
+  .at-a-glance {
+    grid-template-columns: 1fr;
     max-width: none;
   }
 

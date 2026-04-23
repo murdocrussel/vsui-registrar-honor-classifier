@@ -127,6 +127,21 @@ export default function HonorsClassifierApp() {
             Start with the Excel file from the registrar office, then check the student list, mark any fail flags, and export a
             clean workbook with ready-to-use filters.
           </p>
+
+          <div className="at-a-glance">
+            <div>
+              <span>Template</span>
+              <strong>Download first</strong>
+            </div>
+            <div>
+              <span>Program</span>
+              <strong>Typed manually</strong>
+            </div>
+            <div>
+              <span>Category B</span>
+              <strong>CONSISTENT in Remarks</strong>
+            </div>
+          </div>
         </div>
 
         <div className="panel upload-panel">
@@ -156,9 +171,7 @@ export default function HonorsClassifierApp() {
           </a>
 
           <div className="template-note">
-            <strong>Recommended first step:</strong> download the registrar template, fill in the student rows, then upload
-            that file here. The <strong>Program</strong> field can be typed manually for any program. For Category B,
-            type <strong>CONSISTENT</strong> in <strong>Remarks</strong>.
+            Upload the completed registrar template here.
           </div>
 
           <p className="fine-print">
