@@ -127,15 +127,6 @@ export default function HonorsClassifierApp() {
             Start with the Excel file from the registrar office, then check the student list, mark any fail flags, and export a
             clean workbook with ready-to-use filters.
           </p>
-
-          <div className="quick-guide">
-            <p className="quick-guide-title">Quick steps</p>
-            <ol>
-              <li>Download the template.</li>
-              <li>Fill in the student rows.</li>
-              <li>Upload the finished file here.</li>
-            </ol>
-          </div>
         </div>
 
         <div className="panel upload-panel">
@@ -223,7 +214,7 @@ export default function HonorsClassifierApp() {
             <ul>
               <li>1.000 to 1.450 = President&apos;s Honors</li>
               <li>1.451 to 1.750 = University Honors</li>
-              <li>Uses cumulative GPA and CONSISTENT in Remarks</li>
+              <li>Uses cumulative GPA</li>
             </ul>
           </div>
           <div>
@@ -231,7 +222,6 @@ export default function HonorsClassifierApp() {
             <ul>
               <li>The current workbook styles do not always expose failing grades directly.</li>
               <li>You can manually tick the fail box beside any student to mark them ineligible.</li>
-              <li>Category B students should have CONSISTENT written in the Remarks column.</li>
             </ul>
           </div>
         </div>
