@@ -134,7 +134,7 @@ input {
   display: grid;
   grid-template-columns: minmax(0, 1.6fr) minmax(320px, 0.9fr);
   gap: 24px;
-  align-items: stretch;
+  align-items: start;
 }
 
 .hero-title {
@@ -176,7 +176,8 @@ input {
   display: flex;
   flex-direction: column;
   gap: 14px;
-  justify-content: center;
+  justify-content: flex-start;
+  align-self: start;
 }
 
 .upload-heading h2 {
@@ -252,8 +253,8 @@ input {
 }
 
 .template-note strong {
-  display: block;
-  margin-bottom: 4px;
+  display: inline;
+  margin: 0;
   color: var(--accent);
 }
 
