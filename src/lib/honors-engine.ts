@@ -33,17 +33,21 @@ function inferBasisGpa(record: ParsedStudentRecord): { basisGpa?: number; basisS
 
 export function classifyRecord(record: ParsedStudentRecord): ParsedStudentRecord {
   const inferred = inferBasisGpa(record);
-  const categoryA = classifyGpa(inferred.basisGpa, "category-a");
-  const categoryB = record.isConsistentHonors ? classifyGpa(record.cumulativeGpa, "category-b") : undefined;
-  const notes: string[] = [];
   const hasFailingGrade = record.hasFailingGrade || record.manualFailFlag;
+  const categoryA = hasFailingGrade ? undefined : classifyGpa(inferred.basisGpa, "category-a");
+  const categoryB = hasFailingGrade
+    ? undefined
+    : record.isConsistentHonors
+      ? classifyGpa(record.cumulativeGpa, "category-b")
+      : undefined;
+  const notes: string[] = [];
 
   if (record.hasFailingGrade) {
-    notes.push("Disqualified: failing grade flagged from workbook.");
+    notes.push("Not qualified: failing grade flagged in Has Failing Grade.");
   }
 
   if (record.manualFailFlag) {
-    notes.push("Disqualified: manually flagged as failing grade.");
+    notes.push("Not qualified: manually flagged as failing grade.");
   }
 
   if (!inferred.basisGpa) {
