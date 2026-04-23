@@ -92,6 +92,11 @@ function parseFailFlag(value: RowValue): boolean {
   return /^(yes|y|true|1|x|failed|fail)$/i.test(text) || isLikelyFailMarker(value);
 }
 
+function parseConsistencyFlag(value: RowValue): boolean {
+  const text = normalizeKey(value);
+  return /\bconsistent\b/i.test(text) && !/\binconsistent\b/i.test(text);
+}
+
 function parseNormalizedSheet(sheetName: string, rows: RowValue[][]): ParsedStudentRecord[] {
   if (!rows.length || !detectNormalizedHeader(rows[0] ?? [])) return [];
 
@@ -135,6 +140,7 @@ function parseNormalizedSheet(sheetName: string, rows: RowValue[][]): ParsedStud
       basisGpa: undefined,
       basisSource: "missing",
       hasFailingGrade: failIdx !== undefined ? parseFailFlag(row[failIdx]) : parseFailFlag(remarksIdx !== undefined ? row[remarksIdx] : undefined),
+      isConsistentHonors: remarksIdx !== undefined ? parseConsistencyFlag(row[remarksIdx]) : false,
       manualFailFlag: false,
       status: "needs-review",
       notes: [],
@@ -221,6 +227,7 @@ export function parseWorkbook(buffer: ArrayBuffer): WorkbookParseResult {
           basisGpa: undefined,
           basisSource: "missing",
           hasFailingGrade: remarksIdx !== undefined ? isLikelyFailMarker(dataRow[remarksIdx]) : false,
+          isConsistentHonors: remarksIdx !== undefined ? parseConsistencyFlag(dataRow[remarksIdx]) : false,
           manualFailFlag: false,
           status: "needs-review",
           notes: [],

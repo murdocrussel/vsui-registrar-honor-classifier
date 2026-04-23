@@ -141,7 +141,8 @@ export default function HonorsClassifierApp() {
 
           <div className="template-note">
             <strong>Recommended first step:</strong> download the registrar template, fill in the student rows, then upload
-            that file here. The <strong>Program</strong> field can be typed manually for any program.
+            that file here. The <strong>Program</strong> field can be typed manually for any program. For Category B,
+            type <strong>CONSISTENT</strong> in <strong>Remarks</strong>.
           </div>
 
           <p className="fine-print">
@@ -197,7 +198,7 @@ export default function HonorsClassifierApp() {
             <ul>
               <li>1.000 to 1.450 = President&apos;s Honors</li>
               <li>1.451 to 1.750 = University Honors</li>
-              <li>Uses cumulative GPA</li>
+              <li>Uses cumulative GPA and CONSISTENT in Remarks</li>
             </ul>
           </div>
           <div>
@@ -205,6 +206,7 @@ export default function HonorsClassifierApp() {
             <ul>
               <li>The current workbook styles do not always expose failing grades directly.</li>
               <li>You can manually tick the fail box beside any student to mark them ineligible.</li>
+              <li>Category B students should have CONSISTENT written in the Remarks column.</li>
             </ul>
           </div>
         </div>

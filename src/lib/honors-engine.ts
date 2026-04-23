@@ -34,7 +34,7 @@ function inferBasisGpa(record: ParsedStudentRecord): { basisGpa?: number; basisS
 export function classifyRecord(record: ParsedStudentRecord): ParsedStudentRecord {
   const inferred = inferBasisGpa(record);
   const categoryA = classifyGpa(inferred.basisGpa, "category-a");
-  const categoryB = classifyGpa(record.cumulativeGpa, "category-b");
+  const categoryB = record.isConsistentHonors ? classifyGpa(record.cumulativeGpa, "category-b") : undefined;
   const notes: string[] = [];
   const hasFailingGrade = record.hasFailingGrade || record.manualFailFlag;
 
@@ -52,6 +52,10 @@ export function classifyRecord(record: ParsedStudentRecord): ParsedStudentRecord
 
   if (typeof record.cumulativeGpa !== "number") {
     notes.push("Needs review: missing cumulative GPA.");
+  }
+
+  if (!record.isConsistentHonors) {
+    notes.push("Needs review: Category B requires CONSISTENT in Remarks.");
   }
 
   if (record.yearLevel === 1) {

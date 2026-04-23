@@ -26,6 +26,7 @@ export interface ParsedStudentRecord {
   basisGpa?: number;
   basisSource: "first-sem" | "two-sem" | "two-sem-with-summer" | "missing";
   hasFailingGrade: boolean;
+  isConsistentHonors: boolean;
   manualFailFlag: boolean;
   categoryA?: HonorOutcome;
   categoryB?: HonorOutcome;
