@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useMemo, useState } from "react";
 import type { ParsedStudentRecord } from "@/lib/honors-types";
 import { reclassifyRecords } from "@/lib/honors-engine";
@@ -82,17 +83,42 @@ export default function HonorsClassifierApp() {
 
   return (
     <main className="shell">
+      <header className="brand-header">
+        <div className="brand-lockup">
+          <div className="brand-logo">
+            <Image
+              src="/vsu-logo-2022-normal.png"
+              alt="VSU Isabel logo"
+              fill
+              sizes="148px"
+              priority
+              className="brand-mark"
+            />
+          </div>
+          <div className="brand-copy">
+            <p className="eyebrow">Visayas State University Isabel</p>
+            <h1>Registrar Honors Classifier</h1>
+            <p className="brand-subtitle">
+              A simple tool for checking student honors, flagging ineligible rows, and exporting a filtered workbook.
+            </p>
+          </div>
+        </div>
+      </header>
+
       <section className="hero">
         <div>
-          <p className="eyebrow">Registrar honors classifier</p>
-          <h1>Classify students from Excel, then export the result for Vercel.</h1>
+          <h2 className="hero-title">Upload a workbook, review the rows, and export the result.</h2>
           <p className="lede">
-            Upload the registrar workbook, parse the sheet variants, apply the honor rules, and download a clean results file.
-            This starter is designed around your current 2026 workbook formats.
+            Start with the Excel file from the registrar office, then check the student list, mark any fail flags, and export a
+            clean workbook with ready-to-use filters.
           </p>
         </div>
 
         <div className="panel upload-panel">
+          <div className="upload-heading">
+            <h2>Start here</h2>
+            <p>Choose one workbook file and the app will read it right away.</p>
+          </div>
           <label className="upload">
             <span>Upload workbook</span>
             <input
@@ -110,7 +136,7 @@ export default function HonorsClassifierApp() {
           </button>
 
           <p className="fine-print">
-            Parsed locally in the browser. No file upload is required to a server for the first version.
+            Everything runs locally in your browser first, so you can test it safely before sharing the output.
           </p>
         </div>
       </section>
@@ -139,10 +165,10 @@ export default function HonorsClassifierApp() {
       <section className="panel">
         <div className="section-head">
           <div>
-            <h2>How the classification works</h2>
+            <h2>How it works</h2>
             <p>
               Category A uses the previous two semesters or the 1st-semester freshman rule. Category B uses cumulative GPA.
-              Any explicit failing-grade flag marks the student ineligible.
+              If a student is marked with a fail flag, the app marks them ineligible.
             </p>
           </div>
         </div>
@@ -168,7 +194,7 @@ export default function HonorsClassifierApp() {
             <h3>Data note</h3>
             <ul>
               <li>The current workbook styles do not always expose failing grades directly.</li>
-              <li>This app accepts a fail flag when the workbook has one, otherwise it flags the row for review.</li>
+              <li>You can manually tick the fail box beside any student to mark them ineligible.</li>
             </ul>
           </div>
         </div>
@@ -200,7 +226,7 @@ export default function HonorsClassifierApp() {
                 <th>Cumulative</th>
                 <th>Category A</th>
                 <th>Category B</th>
-                <th>Manual Fail Flag</th>
+                <th>Fail Flag</th>
                 <th>Status</th>
                 <th>Notes</th>
               </tr>
@@ -228,7 +254,7 @@ export default function HonorsClassifierApp() {
                           checked={record.manualFailFlag}
                           onChange={(event) => toggleManualFailFlag(index, event.target.checked)}
                         />
-                        <span>Flag fail</span>
+                        <span>Mark</span>
                       </label>
                     </td>
                     <td>
@@ -241,13 +267,19 @@ export default function HonorsClassifierApp() {
                 <tr>
                   <td colSpan={9} className="empty">
                     Upload one of the registrar workbooks to preview the classification results.
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
-      </section>
+          </td>
+        </tr>
+      )}
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+      <footer className="page-footer">
+        <p className="footer-title">Visayas State University Isabel</p>
+        <p>© 2026 Registrar Honors Classifier. For registrar use only.</p>
+        <p className="footer-contact">Contact the developer for technical support or updates.</p>
+      </footer>
     </main>
   );
 }

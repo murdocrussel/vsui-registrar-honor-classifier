@@ -1,56 +1,38 @@
-# Vercel Deployment Checklist
+# Deployment Guide
 
-This app is already set up to be Vercel-friendly. Use this checklist before you deploy.
+Use this guide when you are ready to publish the app.
 
-## Before deploy
+## Before you start
 
-- Confirm `npm run build` passes locally.
-- Make sure the app opens with `npm run dev`.
-- Verify the workbook parser still works with your current registrar templates.
-- Test the manual fail flag on at least one sample row.
-- Check that exported `.xlsx` files open correctly in Excel.
+- Make sure the app runs with `npm run dev`.
+- Make sure the build passes with `npm run build`.
+- Keep your Excel files ready for testing.
 
-## GitHub
+## Simple branch flow
 
-- Commit the current changes.
-- Push the branch to GitHub.
-- Confirm the repo contains:
-  - `package.json`
-  - `package-lock.json`
-  - `src/`
-  - `README.md`
-  - `DEPLOYMENT.md`
+1. Work on a feature branch instead of the main branch.
+2. Give the branch a short name like `codex/update-copy`.
+3. Push the branch to your GitHub repository.
+4. Open a pull request into `main`.
+5. Review the preview build.
+6. Merge only when everything looks correct.
 
-## Branch flow
+## Hosting settings
 
-- Keep `main` as the production branch for Vercel.
-- Create feature branches from `main` using a short `codex/<name>` format.
-- Open a pull request from the feature branch back into `main`.
-- Let Vercel build preview deployments from the feature branch before merging.
-- Merge to `main` only after the preview looks correct.
+- Use the default settings for a Next.js project.
+- Use `npm install` for install.
+- Use `npm run build` for build.
+- Leave the output folder as default.
 
-## Vercel settings
+## Before you share it
 
-- Framework preset: `Next.js`
-- Build command: `npm run build`
-- Install command: `npm install`
-- Output directory: leave default
-- Node.js runtime: use the default Vercel version unless you need a specific one
+- Upload one sample workbook.
+- Check that the student rows appear.
+- Tick and untick a fail flag.
+- Export the file and open it in Excel.
 
-## Environment variables
+## If you are stuck
 
-- None are required for the current version.
-
-## Post-deploy checks
-
-- Open the live app.
-- Upload one registrar workbook.
-- Confirm rows appear in the preview table.
-- Toggle a manual fail flag.
-- Export the workbook and check that the output file contains the flag and status columns.
-
-## If something breaks
-
-- If the app fails to build on Vercel, check for unsupported Excel files or invalid workbook layouts first.
-- If the preview is empty, try another registrar template to confirm the parser assumptions.
-- If exports fail, verify the browser still supports file download in the target environment.
+- If the preview is blank, try another workbook.
+- If the build fails, run `npm run build` locally first.
+- If the export looks wrong, reload the app and try again with a small file.

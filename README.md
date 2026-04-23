@@ -1,21 +1,32 @@
-# Honors Classifier
+# VSU Isabel Registrar Honors Classifier
 
-Upload registrar Excel workbooks, classify students for honors and awards, and export the result.
+This app helps registrar staff classify students for honors and awards using Excel files.
 
-## What it does
+## What you can do
 
-- Parses the current workbook layouts used by the registrar
-- Applies Category A and Category B honor rules
-- Flags rows that need manual review
-- Exports a clean `.xlsx` results file
+- Upload the registrar workbook
+- Review the parsed student list
+- Tick a fail flag for any student who should be ineligible
+- Export a clean `.xlsx` file with the results
 
-## Run locally
+## For first-time users
 
-```bash
-npm install
-npm run dev
-```
+1. Open the project folder in VS Code.
+2. Open the terminal.
+3. Run `npm install`.
+4. Run `npm run dev`.
+5. Open the local link shown in the terminal.
+6. Upload one of the registrar Excel files.
+7. Review the table.
+8. Tick the fail box if needed.
+9. Click export to download the finished Excel file.
 
-## Deploy
+## When something looks wrong
 
-Use the checklist in [DEPLOYMENT.md](./DEPLOYMENT.md) before shipping to Vercel.
+- If the table is empty, try another workbook file.
+- If the file does not upload, make sure it is `.xlsx` or `.xls`.
+- If the export button does nothing, wait until the workbook finishes loading.
+
+## Deployment
+
+See [DEPLOYMENT.md](./DEPLOYMENT.md) for the simple branch and deployment flow.

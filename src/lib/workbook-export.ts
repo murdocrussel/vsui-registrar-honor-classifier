@@ -6,7 +6,7 @@ export function exportClassifiedWorkbook(records: ParsedStudentRecord[]): Blob {
   const rows = [
     [
       "Sheet",
-      "Program",
+      "Course / Program",
       "Section",
       "Student No.",
       "Student Name",
@@ -61,6 +61,9 @@ export function exportClassifiedWorkbook(records: ParsedStudentRecord[]): Blob {
     { wch: 14 },
     { wch: 36 },
   ];
+  worksheet["!autofilter"] = {
+    ref: `A1:P${rows.length}`,
+  };
 
   const workbook = XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(workbook, worksheet, "Classified Students");
