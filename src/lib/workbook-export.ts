@@ -6,8 +6,7 @@ export function exportClassifiedWorkbook(records: ParsedStudentRecord[]): Blob {
   const rows = [
     [
       "Sheet",
-      "Course / Program",
-      "Course",
+      "Program",
       "Student No.",
       "Student Name",
       "Year Level",
@@ -25,7 +24,6 @@ export function exportClassifiedWorkbook(records: ParsedStudentRecord[]): Blob {
     ...records.map((record) => [
       record.sheetName,
       record.programName,
-      record.section,
       record.studentNumber ?? "",
       record.studentName,
       record.yearLevel ?? "",
@@ -46,7 +44,6 @@ export function exportClassifiedWorkbook(records: ParsedStudentRecord[]): Blob {
   worksheet["!cols"] = [
     { wch: 18 },
     { wch: 28 },
-    { wch: 18 },
     { wch: 16 },
     { wch: 28 },
     { wch: 10 },
@@ -62,7 +59,7 @@ export function exportClassifiedWorkbook(records: ParsedStudentRecord[]): Blob {
     { wch: 36 },
   ];
   worksheet["!autofilter"] = {
-    ref: `A1:P${rows.length}`,
+    ref: `A1:O${rows.length}`,
   };
 
   const workbook = XLSX.utils.book_new();

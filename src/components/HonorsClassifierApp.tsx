@@ -141,7 +141,7 @@ export default function HonorsClassifierApp() {
 
           <div className="template-note">
             <strong>Recommended first step:</strong> download the registrar template, fill in the student rows, then upload
-            that file here. The <strong>Program</strong> field can be typed manually for any course or program.
+            that file here. The <strong>Program</strong> field can be typed manually for any program.
           </div>
 
           <p className="fine-print">
@@ -231,7 +231,7 @@ export default function HonorsClassifierApp() {
             <thead>
               <tr>
                 <th>Student</th>
-                <th>Course</th>
+                <th>Program</th>
                 <th>Basis GPA</th>
                 <th>Cumulative</th>
                 <th>Category A</th>
@@ -247,11 +247,11 @@ export default function HonorsClassifierApp() {
                   <tr key={`${record.sheetName}-${record.studentName}-${record.section}`}>
                     <td>
                       <strong>{record.studentName}</strong>
-                      <span>{record.programName}</span>
+                      <span>{record.studentNumber ?? "No student no."}</span>
                     </td>
                     <td>
-                      <strong>{record.section}</strong>
-                      <span>{record.studentNumber ?? "No student no."}</span>
+                      <strong>{record.programName}</strong>
+                      <span>{record.yearLevel ? `Year ${record.yearLevel}` : "No year level"}</span>
                     </td>
                     <td>{formatGpa(record.basisGpa)}</td>
                     <td>{formatGpa(record.cumulativeGpa)}</td>

@@ -79,7 +79,7 @@ function rowHasAnyStudentData(row: RowValue[]): boolean {
 
 function detectNormalizedHeader(row: RowValue[]): boolean {
   const text = row.map(normalizeKey).join(" | ");
-  return /student.*name/.test(text) && /program/.test(text) && /year.*level/.test(text) && /(section|course)/.test(text);
+  return /student.*name/.test(text) && /program/.test(text) && /year.*level/.test(text);
 }
 
 function headerIndexByPatterns(row: RowValue[], patterns: RegExp[]): number | undefined {
@@ -118,17 +118,16 @@ function parseNormalizedSheet(sheetName: string, rows: RowValue[][]): ParsedStud
     if (!studentName || /instructions?|sample|template/i.test(studentName)) continue;
 
     const programName = normalizeText(programIdx !== undefined ? row[programIdx] : row[2]);
-    const section = normalizeText(sectionIdx !== undefined ? row[sectionIdx] : "");
-    const yearLevelRaw = yearLevelIdx !== undefined ? row[yearLevelIdx] : undefined;
-    const yearLevel = typeof yearLevelRaw === "number" ? yearLevelRaw : inferYearLevel(normalizeText(yearLevelRaw) || section);
+      const yearLevelRaw = yearLevelIdx !== undefined ? row[yearLevelIdx] : undefined;
+      const yearLevel = typeof yearLevelRaw === "number" ? yearLevelRaw : inferYearLevel(normalizeText(yearLevelRaw));
 
-    records.push({
-      sheetName,
-      programName: programName || sheetName,
-      section: section || programName || sheetName,
-      studentNumber: studentNoIdx !== undefined ? normalizeText(row[studentNoIdx]) || undefined : undefined,
-      studentName,
-      yearLevel,
+      records.push({
+        sheetName,
+        programName: programName || sheetName,
+        section: normalizeText(sectionIdx !== undefined ? row[sectionIdx] : ""),
+        studentNumber: studentNoIdx !== undefined ? normalizeText(row[studentNoIdx]) || undefined : undefined,
+        studentName,
+        yearLevel,
       secondSemGpa: parseNumber(secondSemIdx !== undefined ? row[secondSemIdx] : undefined),
       summerGpa: parseNumber(summerIdx !== undefined ? row[summerIdx] : undefined),
       firstSemGpa: parseNumber(firstSemIdx !== undefined ? row[firstSemIdx] : undefined),
@@ -207,14 +206,14 @@ export function parseWorkbook(buffer: ArrayBuffer): WorkbookParseResult {
         const studentName = normalizeText(nameIdx !== undefined ? dataRow[nameIdx] : dataRow[1] ?? dataRow[2]);
         if (!studentName || /prepared by|checked by|list of students/i.test(studentName)) continue;
 
-        const sectionText = normalizeText(sectionIdx !== undefined ? dataRow[sectionIdx] : currentSection);
+        const sectionText = normalizeText(sectionIdx !== undefined ? dataRow[sectionIdx] : "");
         const record: ParsedStudentRecord = {
           sheetName,
           programName: currentProgram,
-          section: sectionText || currentSection,
+          section: sectionText,
           studentNumber: studentNoIdx !== undefined ? normalizeText(dataRow[studentNoIdx]) || undefined : undefined,
           studentName,
-          yearLevel: inferYearLevel(sectionText || currentSection),
+          yearLevel: inferYearLevel(sectionText),
           secondSemGpa: parseNumber(secondSemIdx !== undefined ? dataRow[secondSemIdx] : undefined),
           summerGpa: parseNumber(summerIdx !== undefined ? dataRow[summerIdx] : undefined),
           firstSemGpa: parseNumber(firstSemIdx !== undefined ? dataRow[firstSemIdx] : undefined),
