@@ -231,7 +231,7 @@ export default function HonorsClassifierApp() {
             <thead>
               <tr>
                 <th>Student</th>
-                <th>Section</th>
+                <th>Course</th>
                 <th>Basis GPA</th>
                 <th>Cumulative</th>
                 <th>Category A</th>

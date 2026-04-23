@@ -79,7 +79,7 @@ function rowHasAnyStudentData(row: RowValue[]): boolean {
 
 function detectNormalizedHeader(row: RowValue[]): boolean {
   const text = row.map(normalizeKey).join(" | ");
-  return /student.*name/.test(text) && /program/.test(text) && /year.*level/.test(text) && /section/.test(text);
+  return /student.*name/.test(text) && /program/.test(text) && /year.*level/.test(text) && /(section|course)/.test(text);
 }
 
 function headerIndexByPatterns(row: RowValue[], patterns: RegExp[]): number | undefined {
@@ -100,7 +100,7 @@ function parseNormalizedSheet(sheetName: string, rows: RowValue[][]): ParsedStud
   const nameIdx = headerIndexByPatterns(headerRow, [/student.*name/i, /^name$/i]);
   const programIdx = headerIndexByPatterns(headerRow, [/program/i, /course/i]);
   const yearLevelIdx = headerIndexByPatterns(headerRow, [/year.*level/i, /year/i]);
-  const sectionIdx = headerIndexByPatterns(headerRow, [/section/i]);
+  const sectionIdx = headerIndexByPatterns(headerRow, [/section/i, /course/i]);
   const secondSemIdx = headerIndexByPatterns(headerRow, [/second.*sem/i, /2nd.*sem/i]);
   const summerIdx = headerIndexByPatterns(headerRow, [/summer/i]);
   const firstSemIdx = headerIndexByPatterns(headerRow, [/first.*sem/i, /1st.*sem/i]);

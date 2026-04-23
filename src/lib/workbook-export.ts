@@ -7,7 +7,7 @@ export function exportClassifiedWorkbook(records: ParsedStudentRecord[]): Blob {
     [
       "Sheet",
       "Course / Program",
-      "Section",
+      "Course",
       "Student No.",
       "Student Name",
       "Year Level",
