@@ -141,7 +141,7 @@ export default function HonorsClassifierApp() {
 
           <div className="template-note">
             <strong>Recommended first step:</strong> download the registrar template, fill in the student rows, then upload
-            that file here.
+            that file here. The <strong>Program</strong> field can be typed manually for any course or program.
           </div>
 
           <p className="fine-print">
