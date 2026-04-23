@@ -64,9 +64,9 @@ export default function HonorsClassifierApp() {
     }
   }
 
-  function handleExport() {
+  async function handleExport() {
     if (!state?.records.length) return;
-    const blob = exportClassifiedWorkbook(state.records);
+    const blob = await exportClassifiedWorkbook(state.records);
     const url = URL.createObjectURL(blob);
     const anchor = document.createElement("a");
     anchor.href = url;
@@ -139,7 +139,7 @@ export default function HonorsClassifierApp() {
             />
           </label>
 
-          <button type="button" className="button" onClick={handleExport} disabled={!state?.records.length}>
+          <button type="button" className="button" onClick={() => void handleExport()} disabled={!state?.records.length}>
             Export classified workbook
           </button>
 
