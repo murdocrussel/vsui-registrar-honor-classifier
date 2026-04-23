@@ -36,6 +36,7 @@ export default function HonorsClassifierApp() {
   const [state, setState] = useState<LoadState | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [selectedFileName, setSelectedFileName] = useState<string>("No file chosen");
 
   const summary = useMemo(() => {
     const records = state?.records ?? [];
@@ -54,6 +55,7 @@ export default function HonorsClassifierApp() {
   async function handleUpload(file: File) {
     setLoading(true);
     setError(null);
+    setSelectedFileName(file.name);
 
     try {
       const buffer = await file.arrayBuffer();
@@ -63,6 +65,7 @@ export default function HonorsClassifierApp() {
       const message = cause instanceof Error ? cause.message : "Unable to read workbook.";
       setError(message);
       setState(null);
+      setSelectedFileName("No file chosen");
     } finally {
       setLoading(false);
     }
@@ -124,6 +127,15 @@ export default function HonorsClassifierApp() {
             Start with the Excel file from the registrar office, then check the student list, mark any fail flags, and export a
             clean workbook with ready-to-use filters.
           </p>
+
+          <div className="quick-guide">
+            <p className="quick-guide-title">Quick steps</p>
+            <ol>
+              <li>Download the template.</li>
+              <li>Fill in the student rows.</li>
+              <li>Upload the finished file here.</li>
+            </ol>
+          </div>
         </div>
 
         <div className="panel upload-panel">
@@ -131,7 +143,7 @@ export default function HonorsClassifierApp() {
             <h2>Start here</h2>
             <p>Choose one workbook file and the app will read it right away.</p>
           </div>
-          <label className="upload">
+          <label className="upload upload-control">
             <span>Upload workbook</span>
             <input
               type="file"
@@ -141,6 +153,7 @@ export default function HonorsClassifierApp() {
                 if (file) void handleUpload(file);
               }}
             />
+            <span className="upload-filename">{selectedFileName}</span>
           </label>
 
           <button type="button" className="button" onClick={() => void handleExport()} disabled={!state?.records.length}>
