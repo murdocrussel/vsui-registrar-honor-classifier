@@ -28,6 +28,10 @@ function formatExportStamp(date: Date): string {
   )}`;
 }
 
+function hasReviewNote(record: ParsedStudentRecord): boolean {
+  return record.notes.some((note) => /^Needs review:/i.test(note));
+}
+
 export default function HonorsClassifierApp() {
   const [state, setState] = useState<LoadState | null>(null);
   const [loading, setLoading] = useState(false);
@@ -39,7 +43,7 @@ export default function HonorsClassifierApp() {
       total: records.length,
       eligible: records.filter((row) => row.status === "eligible").length,
       ineligible: records.filter((row) => row.status === "ineligible").length,
-      review: records.filter((row) => row.status === "needs-review").length,
+      review: records.filter((row) => row.status === "needs-review" || hasReviewNote(row)).length,
       categoryA: records.filter((row) => Boolean(row.categoryA)).length,
       categoryB: records.filter((row) => Boolean(row.categoryB)).length,
     };
@@ -170,7 +174,7 @@ export default function HonorsClassifierApp() {
           <strong>{summary.eligible}</strong>
         </article>
         <article className="stat">
-          <span>Needs review</span>
+          <span>Review notes</span>
           <strong>{summary.review}</strong>
         </article>
         <article className="stat">
