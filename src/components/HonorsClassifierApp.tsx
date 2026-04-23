@@ -135,8 +135,18 @@ export default function HonorsClassifierApp() {
             Export classified workbook
           </button>
 
+          <a className="button button-secondary" href="/vsui-registrar-honors-classifier-template.xlsx" download>
+            Download registrar template
+          </a>
+
+          <div className="template-note">
+            <strong>Recommended first step:</strong> download the registrar template, fill in the student rows, then upload
+            that file here.
+          </div>
+
           <p className="fine-print">
-            Everything runs locally in your browser first, so you can test it safely before sharing the output.
+            Start with the template if you want a clean format. Everything runs locally in your browser first, so you can
+            test it safely before sharing the output.
           </p>
         </div>
       </section>

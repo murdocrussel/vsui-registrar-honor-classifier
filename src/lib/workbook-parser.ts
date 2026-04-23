@@ -77,6 +77,74 @@ function rowHasAnyStudentData(row: RowValue[]): boolean {
   return row.some((value) => typeof value === "string" && value.trim().length > 0);
 }
 
+function detectNormalizedHeader(row: RowValue[]): boolean {
+  const text = row.map(normalizeKey).join(" | ");
+  return /student.*name/.test(text) && /program/.test(text) && /year.*level/.test(text) && /section/.test(text);
+}
+
+function headerIndexByPatterns(row: RowValue[], patterns: RegExp[]): number | undefined {
+  const map = buildHeaderMap(row);
+  return findHeaderIndex(map, patterns);
+}
+
+function parseFailFlag(value: RowValue): boolean {
+  const text = normalizeKey(value);
+  return /^(yes|y|true|1|x|failed|fail)$/i.test(text) || isLikelyFailMarker(value);
+}
+
+function parseNormalizedSheet(sheetName: string, rows: RowValue[][]): ParsedStudentRecord[] {
+  if (!rows.length || !detectNormalizedHeader(rows[0] ?? [])) return [];
+
+  const headerRow = rows[0] ?? [];
+  const studentNoIdx = headerIndexByPatterns(headerRow, [/student.*no/i, /student.*number/i, /^id$/i]);
+  const nameIdx = headerIndexByPatterns(headerRow, [/student.*name/i, /^name$/i]);
+  const programIdx = headerIndexByPatterns(headerRow, [/program/i, /course/i]);
+  const yearLevelIdx = headerIndexByPatterns(headerRow, [/year.*level/i, /year/i]);
+  const sectionIdx = headerIndexByPatterns(headerRow, [/section/i]);
+  const secondSemIdx = headerIndexByPatterns(headerRow, [/second.*sem/i, /2nd.*sem/i]);
+  const summerIdx = headerIndexByPatterns(headerRow, [/summer/i]);
+  const firstSemIdx = headerIndexByPatterns(headerRow, [/first.*sem/i, /1st.*sem/i]);
+  const cumulativeIdx = headerIndexByPatterns(headerRow, [/cumulative/i]);
+  const remarksIdx = headerIndexByPatterns(headerRow, [/remarks?/i]);
+  const failIdx = headerIndexByPatterns(headerRow, [/fail/i, /failing/i, /disqual/i]);
+
+  const records: ParsedStudentRecord[] = [];
+
+  for (let i = 1; i < rows.length; i += 1) {
+    const row = rows[i] ?? [];
+    if (!rowHasAnyStudentData(row)) continue;
+
+    const studentName = normalizeText(nameIdx !== undefined ? row[nameIdx] : row[1]);
+    if (!studentName || /instructions?|sample|template/i.test(studentName)) continue;
+
+    const programName = normalizeText(programIdx !== undefined ? row[programIdx] : row[2]);
+    const section = normalizeText(sectionIdx !== undefined ? row[sectionIdx] : "");
+    const yearLevelRaw = yearLevelIdx !== undefined ? row[yearLevelIdx] : undefined;
+    const yearLevel = typeof yearLevelRaw === "number" ? yearLevelRaw : inferYearLevel(normalizeText(yearLevelRaw) || section);
+
+    records.push({
+      sheetName,
+      programName: programName || sheetName,
+      section: section || programName || sheetName,
+      studentNumber: studentNoIdx !== undefined ? normalizeText(row[studentNoIdx]) || undefined : undefined,
+      studentName,
+      yearLevel,
+      secondSemGpa: parseNumber(secondSemIdx !== undefined ? row[secondSemIdx] : undefined),
+      summerGpa: parseNumber(summerIdx !== undefined ? row[summerIdx] : undefined),
+      firstSemGpa: parseNumber(firstSemIdx !== undefined ? row[firstSemIdx] : undefined),
+      cumulativeGpa: parseNumber(cumulativeIdx !== undefined ? row[cumulativeIdx] : undefined),
+      basisGpa: undefined,
+      basisSource: "missing",
+      hasFailingGrade: failIdx !== undefined ? parseFailFlag(row[failIdx]) : parseFailFlag(remarksIdx !== undefined ? row[remarksIdx] : undefined),
+      manualFailFlag: false,
+      status: "needs-review",
+      notes: [],
+    });
+  }
+
+  return records;
+}
+
 export function parseWorkbook(buffer: ArrayBuffer): WorkbookParseResult {
   const workbook = XLSX.read(buffer, { type: "array", cellDates: false, raw: true });
   const records: ParsedStudentRecord[] = [];
@@ -85,6 +153,12 @@ export function parseWorkbook(buffer: ArrayBuffer): WorkbookParseResult {
   for (const sheetName of workbook.SheetNames) {
     const sheet = workbook.Sheets[sheetName];
     const rows = XLSX.utils.sheet_to_json<RowValue[]>(sheet, { header: 1, blankrows: false, defval: null }) as RowValue[][];
+
+    const normalizedRecords = parseNormalizedSheet(sheetName, rows);
+    if (normalizedRecords.length) {
+      records.push(...normalizedRecords);
+      continue;
+    }
 
     let currentSection = sheetName;
     let currentProgram = sheetName;
