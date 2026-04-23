@@ -41,6 +41,7 @@ export function exportClassifiedWorkbook(records: ParsedStudentRecord[]): Blob {
   ];
 
   const worksheet = XLSX.utils.aoa_to_sheet(rows);
+  worksheet["!freeze"] = { xSplit: 0, ySplit: 1 };
   worksheet["!cols"] = [
     { wch: 10 },
     { wch: 28 },
